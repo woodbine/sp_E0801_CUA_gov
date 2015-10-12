@@ -2,18 +2,13 @@
 
 #### IMPORTS 1.0
 
-import sys
-reload(sys)
-sys.setdefaultencoding('UTF8')
 import os
 import re
 import scraperwiki
 import urllib2
-import urllib
-import urlparse
 from datetime import datetime
 from bs4 import BeautifulSoup
-import requests
+
 
 #### FUNCTIONS 1.0
 
@@ -43,20 +38,20 @@ def validateFilename(filename):
 
 def validateURL(url):
     try:
-        r = requests.get(url, allow_redirects=True, timeout=20)
+        r = urllib2.urlopen(url)
         count = 1
-        while r.status_code == 500 and count < 4:
+        while r.getcode() == 500 and count < 4:
             print ("Attempt {0} - Status code: {1}. Retrying.".format(count, r.status_code))
             count += 1
-            r = requests.get(url, allow_redirects=True, timeout=20)
+            r = urllib2.urlopen(url)
         sourceFilename = r.headers.get('Content-Disposition')
 
         if sourceFilename:
             ext = os.path.splitext(sourceFilename)[1].replace('"', '').replace(';', '').replace(' ', '')
         else:
             ext = os.path.splitext(url)[1]
-        validURL = r.status_code == 200
-        validFiletype = ext in ['.csv', '.xls', '.xlsx', '.CSV']
+        validURL = r.getcode() == 200
+        validFiletype = ext in ['.csv', '.xls', '.xlsx', '.docx']
         return validURL, validFiletype
     except:
         print ("Error validating URL.")
@@ -93,17 +88,23 @@ entity_id = "E0801_CUA_gov"
 urls = ["http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/", "http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/spending-in-the-last-four-financial-years/"]
 errors = 0
 data = []
+url = 'http://www.example.com'
 
 #### READ HTML 1.0
 
+html = urllib2.urlopen(url)
+soup = BeautifulSoup(html, "lxml")
+
+#### SCRAPE DATA
+
+import sys
+reload(sys)
+sys.setdefaultencoding('UTF8')
+import requests
 
 for url in urls:
     html = requests.get(url)
     soup = BeautifulSoup(html.text, 'lxml')
-
-
-#### SCRAPE DATA
-
     block = soup.find('div', attrs = {'id':'content'})
     links = block.findAll('a', href=True)
     for link in links:
