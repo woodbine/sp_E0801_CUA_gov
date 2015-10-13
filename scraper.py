@@ -88,7 +88,7 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E0801_CUA_gov"
-urls = ["http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/", "http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/spending-in-the-last-four-financial-years/"]
+urls = ["http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/", "http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/spending-in-previous-years/"]
 errors = 0
 data = []
 url = 'http://www.example.com'
