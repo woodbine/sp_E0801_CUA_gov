@@ -112,7 +112,7 @@ for url in urls:
     links = soup.findAll('a', href=True)
     for link in links:
         url = 'http://www.cornwall.gov.uk' + link['href']
-        csvfile = link.text.strip()
+        csvfile = link.text.strip().replace(u'\xa0', ' ')
         if 'CSV' in csvfile and 'spending' in csvfile:
             Mth = csvfile.split(' ')[-3]
             if 'format August' in Mth:
