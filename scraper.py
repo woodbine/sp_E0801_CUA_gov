@@ -88,7 +88,8 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E0801_CUA_gov"
-urls = ["http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/", "http://www.cornwall.gov.uk/council-and-democracy/council-spending-and-budgets/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/spending-in-previous-years/"]
+urls = ["https://www.cornwall.gov.uk/council-and-democracy/council-spending-budgets-and-information/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/",
+        "https://www.cornwall.gov.uk/council-and-democracy/council-spending-budgets-and-information/payments-to-suppliers-where-the-invoiced-payments-are-greater-than-or-equal-to-500/spending-in-previous-years/"]
 errors = 0
 data = []
 url = 'http://www.example.com'
@@ -108,14 +109,13 @@ import requests
 for url in urls:
     html = requests.get(url)
     soup = BeautifulSoup(html.text, 'lxml')
-    block = soup.find('div', attrs = {'id':'content'})
-    links = block.findAll('a', href=True)
+    links = soup.findAll('a', href=True)
     for link in links:
         url = 'http://www.cornwall.gov.uk' + link['href']
         csvfile = link.text.strip()
         if 'CSV' in csvfile and 'spending' in csvfile:
             Mth = csvfile.split(' ')[-3]
-            if 'format August' in Mth:
+            if 'format August' in Mth:
                 Mth = 'August'
             Mth = Mth[:3]
             csvYr = csvfile.split(' ')[-2]
